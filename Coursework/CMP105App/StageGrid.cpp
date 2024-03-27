@@ -23,6 +23,7 @@ StageGrid::StageGrid()
 // create grid, stage current [1-3] for difficulty, i.e, number of hazards..
 StageGrid::StageGrid(sf::Vector2i dimensions, float cellSizeIn, sf::Vector2f positionIn, sf::Vector2i start, sf::Vector2i end, sf::Vector2i cp, int stage, TextureManager* tm)
 {
+	//initialises the values
 	textMan = tm;
 	cellSize = cellSizeIn;
 	position = positionIn;
@@ -39,6 +40,7 @@ StageGrid::StageGrid(sf::Vector2i dimensions, float cellSizeIn, sf::Vector2f pos
 			// for each cell in a column.
 			col.push_back(cellState::SAFE);
 			GameObject cell = GameObject();
+			//sets the cell details
 			cell.setSize(sf::Vector2f( cellSize, cellSize));
 			cell.setPosition(colLeft, position.y + (j * cellSize));
 			gridCol.push_back(cell);
@@ -46,6 +48,10 @@ StageGrid::StageGrid(sf::Vector2i dimensions, float cellSizeIn, sf::Vector2f pos
 		grid.push_back(col);
 		board.push_back(gridCol);
 	}
+	//think of cell states like blocks for creating the map, similar to tiles
+
+	//changes the state depending on the coorinates 
+	//(entered in level) to start, end or give a checkpoint in the level
 	grid[end.x][end.y] = cellState::END;
 	grid[start.x][start.y] = cellState::START;
 	grid[cp.x][cp.y] = cellState::CHECKPOINT;
@@ -219,7 +225,8 @@ void StageGrid::render(sf::RenderWindow* wnd, bool cp_on)
 			GameObject cellOverlay;
 			cellOverlay.setSize(sf::Vector2f(cellSize, cellSize));
 			cellOverlay.setPosition(board[x][y].getPosition());
-
+			//depending on what condition the grids x and y values equal it will draw a certain texture
+			//at the end of rendering it should draw everything on the stage
 			switch (grid[x][y])
 			{
 			case cellState::PIT:

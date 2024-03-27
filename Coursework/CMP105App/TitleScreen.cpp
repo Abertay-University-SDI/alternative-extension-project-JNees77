@@ -9,7 +9,7 @@ TitleScreen::TitleScreen(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 	textMan = tm;
 
 	// set positions and textures.
-	//   .. for the fan
+	//   .. for the bear
 	fan.setPosition(window->getSize().x * 0.7, window->getSize().y * 0.5);
 	float fanProportion = textMan->getProportions("sadBear");
 	fan.setSize(sf::Vector2f(window->getSize().x * 0.2, window->getSize().x * 0.2 * fanProportion));
@@ -34,8 +34,6 @@ TitleScreen::TitleScreen(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 	// .. background
 	// initialise background. base size: 1920, 1080
 	bg.setTexture(&textMan->getTexture("titleBG"));
-	float bgScalar = std::max(hwnd->getSize().x / 1920.f, hwnd->getSize().y / 1080.f);
-	bg.setSize(sf::Vector2f(1920 * bgScalar, 1080* bgScalar));
 
 	animTimer = 0.0f;
 }
@@ -72,6 +70,7 @@ void TitleScreen::handleInput(float dt)
 void TitleScreen::update(float dt)
 {
 	// update sizes to be dynamic.
+	bg.setSize(sf::Vector2f(window->getView().getSize().x, window->getView().getSize().y));
 	fan.setPosition(window->getSize().x * 0.7, window->getSize().y * 0.5);
 	float fanProportion = textMan->getProportions("sadBear");
 	fan.setSize(sf::Vector2f(window->getSize().x * 0.2, window->getSize().x * 0.2 * fanProportion));

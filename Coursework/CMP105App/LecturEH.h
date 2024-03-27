@@ -18,8 +18,9 @@ public:
 	Animation* currentAnimation;
 	Animation hop;
 	Animation still;
-
+	//initial starting time for duration of hop animation
 	float timeSinceHop = 0.f;
+	//delay of five seconds between each hop
 	float HOP_DELAY = 5.0f;
 };
 

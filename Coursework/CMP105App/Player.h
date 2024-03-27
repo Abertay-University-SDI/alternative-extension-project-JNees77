@@ -9,6 +9,7 @@ public:
 	Player();
 	~Player();
 
+	//methods
 	void handleInput(float dt);
 	void setDamaged(float timer);
 	bool isDamaged();
@@ -19,6 +20,7 @@ public:
 	void setKicking(float t);
 	bool canJump() const;
 
+	//objects
 	sf::Texture dino;
 	Input in;
 	Animation walk;

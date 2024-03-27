@@ -16,12 +16,14 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 	beatsPlayed = 0;
 
 	// initialise background. base size: 5760, 3240
+	//This is the background from the start of the game
 	levelBG.setTexture(&textMan->getTexture("redSkyBG"));
 	float bgScalar = std::max(hwnd->getSize().x / 5760.f, hwnd->getSize().y / 3240.f);
 	levelBG.setSize(sf::Vector2f(5760*bgScalar, 3240*bgScalar));
 
 	// initialise grid board
 	// .. first calculate size. 
+	//gets the window proportions
 	float windowWidth = window->getSize().x;
 	float windowHeight = window->getSize().y;
 	boardTop = windowHeight * 0.05;	// the board is as wide as can be with the given constants.
@@ -29,6 +31,7 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 	boardRight = windowWidth - boardLeft;
 	int numRows = 10;
 	int numCols = 20;
+	//divides the number of steps that can be taken by 20*
 	cellDim = (boardRight - boardLeft) / numCols;
 	boardBottom = numRows * cellDim + boardTop;
 	// ensure grid does not take up too much of the sapce
@@ -49,22 +52,28 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 
 	// setup player component.
 	playerPosition = { start.x, start.y };
+	//sets the players position to the grid board position + the dimensions of the cell (uniform)
+	//then multpilied by the vector value of start (0,3)
 	player.setPosition(sf::Vector2f(
 		gridBoard.getPosition().x + cellDim * start.x,
 		gridBoard.getPosition().y + cellDim * start.y)
 	);
+	//player is uniform size (the calc for cellDim is above)
 	player.setSize(sf::Vector2f(cellDim, cellDim));
 
 	// Setup progress bar component.
+	//this is the bar that charges to time the key presses
 	progressInStep.setPosition(sf::Vector2f(900, 800));
 	progressInStep.setSize(sf::Vector2f(0, 200));
 	progressInStepBG.setPosition(sf::Vector2f(900, 790));
 	progressInStepBG.setSize(sf::Vector2f(500, 220));
 	progressInStepBG.setFillColor(sf::Color::Black);
+	//this calculation tracks to see if the bar is in the right zone (when it turns green)
 	targetZone.setPosition(sf::Vector2f(
 		progressInStepBG.getPosition().x + progressInStepBG.getSize().x * (TIME_PER_STEP - TIME_FOR_ACTION - TIME_BUFFER) / TIME_PER_STEP,
 		790
 	));
+	//this is the area where you want to aim ur key presses
 	targetZone.setSize(sf::Vector2f(
 		progressInStepBG.getSize().x * (TIME_FOR_ACTION / TIME_PER_STEP),
 		220
@@ -72,6 +81,7 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 	targetZone.setFillColor(sf::Color::Blue);
 
 	// setup controls component.
+	//This shows the background for the controls to sit in
 	font.loadFromFile("font/montS.ttf");
 	controls.push_back(sf::Text());
 	controls[0].setPosition(boardLeft, boardBottom);
@@ -94,8 +104,11 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 	);
 
 	// setup indicators
+	//sets names for the indicators (code)
 	std::vector<std::string> indicatorNames = { "upIcon", "rightIcon", "downIcon", "leftIcon" };
+	//sets the displayed version for the user
 	std::vector<char> indicatorLabels = { 'W', 'D', 'S', 'A'};
+	//uses the indicator names to set the texture
 	for (int i = 0; i < indicatorNames.size(); ++i)
 	{
 		GameObject icon;
@@ -114,9 +127,13 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 	checkPointEnabled = false;
 
 	// set alert
+	//text object
 	alert.setFont(font);
+	//sets the position the text will be displayed at
 	alert.setPosition(window->getSize().x * 0.4, boardBottom);
+	//sets the size of the characters
 	alert.setCharacterSize(50);
+	//ses the colour
 	alert.setFillColor(sf::Color::Yellow);
 
 }
@@ -140,9 +157,11 @@ void Level::handleInput(float dt)
 	float timeLeft = TIME_PER_STEP - timeInStep;
 	if (timeLeft > TIME_BUFFER && timeLeft < TIME_BUFFER + TIME_FOR_ACTION && selectedAction != FAIL)
 	{
+		//depending on the action and if pressed at the right time displays one of the following
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			selectedAction = LEFT;
+			//flips the players animation
 			player.setFlipped(true);
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -152,6 +171,7 @@ void Level::handleInput(float dt)
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			selectedAction = RIGHT;
+			//flips the players position back the other way
 			player.setFlipped(false);
 
 		}
@@ -191,10 +211,12 @@ void Level::update(float dt)
 	// display alert or reset alert.
 	if (alert.getString() != "" && alertHasBeenActiveFor < TIME_TO_DISPLAY_ALERT)
 	{
+		//displas the alert for 0.5 seconds
 		alertHasBeenActiveFor += dt;
 	}
 	else
 	{
+		//sets the alert to a blank char value for 0,5s
 		alert.setString("");
 		alertHasBeenActiveFor = TIME_TO_DISPLAY_ALERT;
 	}
@@ -202,20 +224,26 @@ void Level::update(float dt)
 	// check for win
 	if (playerPosition.first == end.x && playerPosition.second == end.y)
 	{
+		//uses game state, specifically for the wizard game to count the number of deaths in the wizard game and the time taken
 		gameState->addResult("l1deaths", deaths);
 		gameState->addResult("l1time", timeTaken);
+		//checks to see if the level has been cleared and shows the winning screen
 		if (gameState->getSingleRun()) gameState->setCurrentState(State::ENDGAME);
+		//otherwise sets the current start to whatever that is*
 		else gameState->setCurrentState(State::PRE_TWO);
+		//plays success audio
 		audio->playSoundbyName("success");
 	}
 	else
 	{
+		//increments time taken
 		timeTaken += dt;
 	}
 
 	// check for checkpoint
 	if (!checkPointEnabled && playerPosition.second > checkPoint.y)
 	{
+		//sets checkpoints to true plays a sound, shows an alert
 		checkPointEnabled = true;
 		audio->playSoundbyName("success");
 		alert.setString("checkpoint");
@@ -229,11 +257,13 @@ void Level::update(float dt)
 	// Play beat ONCE per step.
 	if (!soundPlayed && timeInStep > TIME_PER_STEP - (TIME_FOR_ACTION / 2 + TIME_BUFFER))
 	{
+		//sound to keep in beat with
 		audio->playSoundbyName("clap");
 		soundPlayed = true;
 	}
 	
 	// update UI
+	//tells the user if their press was too fast or too slow and presents the message
 	for(int i = 0; i < 4; ++i) indicators[i].setFillColor(sf::Color::White);
 	switch (selectedAction)
 	{
@@ -262,11 +292,9 @@ void Level::update(float dt)
 	}
 
 	// update progress component
+	//this is the bar that moves that requires you to tap in the blue box (code for blue box above)
 	timeInStep += dt;
-	progressInStep.setSize(sf::Vector2f(
-		(timeInStep / TIME_PER_STEP) * progressInStepBG.getSize().x,
-		200
-	));
+	progressInStep.setSize(sf::Vector2f((timeInStep / TIME_PER_STEP) * progressInStepBG.getSize().x,200	));
 	float timeLeft = TIME_PER_STEP - timeInStep;
 	if (timeLeft > TIME_BUFFER && timeLeft < TIME_BUFFER + TIME_FOR_ACTION && selectedAction != FAIL)
 	{
@@ -282,9 +310,12 @@ void Level::update(float dt)
 	{
 		// do a move.
 		beatsPlayed++;
+		//passes number of frames
 		grid.update(0);
 		timeInStep = 0.f;
 		soundPlayed = false;
+
+		//depending in the action moves the player
 		switch (selectedAction)
 		{
 		case UP:
@@ -339,6 +370,7 @@ void Level::update(float dt)
 		if (timeLeft < TIME_BUFFER)
 		{
 			// hack: stop alert carrying over in early frames of new step.
+			//displays mistake message
 			if (alert.getString() != "too fast")
 				alert.setString("too slow");
 		}
@@ -353,6 +385,7 @@ void Level::update(float dt)
 void Level::render()
 {
 	beginDraw();
+	//draws all the images for the lecturer level
 	window->draw(levelBG);
 	grid.render(window, checkPointEnabled);
 	window->draw(controls[0]);
@@ -364,14 +397,18 @@ void Level::render()
 	if(!lecturer.getMessageToDisplay(boardTop, boardRight, boardBottom, boardLeft).getString().isEmpty())
 		window->draw(lecturer.getMessageToDisplay(boardTop, boardRight, boardBottom, boardLeft));
 	window->draw(controlBG);
+
 	for (GameObject ind : indicators)
 	{
+		//draws the indicators like (->)
 		window->draw(ind);
 	}
 	for (sf::Text label : controls)
 	{
+		//draws the labels like (Up)
 		window->draw(label);
 	}
+	//draws the alerts
 	window->draw(alert);
 	endDraw();
 }
@@ -381,8 +418,10 @@ Put player back to the starting space.
 */
 void Level::resetPlayer()
 {
+	//if the player dies resets everything using this code
 	if(checkPointEnabled) playerPosition = { checkPoint.x, checkPoint.y };
 	else playerPosition = { start.x, start.y };
+	//plays a death sound and increases death counter
 	audio->playSoundbyName("death");
 	damagedTimer = RESET_TIME;
 	player.setDamaged(damagedTimer);

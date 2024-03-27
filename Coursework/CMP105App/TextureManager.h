@@ -16,7 +16,7 @@ private:
 
 public:
     TextureManager();
-
+    //gets the file from the gfx folder
     sf::Vector2u getDimensions(std::string filePath);
 
     float getProportions(std::string filePath);

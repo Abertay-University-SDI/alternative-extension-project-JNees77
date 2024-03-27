@@ -17,9 +17,6 @@ TransitionLevel::TransitionLevel(sf::RenderWindow* hwnd, Input* in, GameState* g
 
 	// initialise background. base size: 5760, 3240
 	bg.setTexture(&textMan->getTexture("redSkyBG"));
-	float bgScalar = std::max(hwnd->getSize().x / 5760.f, hwnd->getSize().y / 3240.f);
-	bg.setSize(sf::Vector2f(5760 * bgScalar, 3240 * bgScalar));
-
 }
 
 TransitionLevel::~TransitionLevel()
@@ -28,6 +25,8 @@ TransitionLevel::~TransitionLevel()
 
 void TransitionLevel::handleInput(float dt)
 {
+	//once the player decides to start the level it will use the switch case 
+	//to select to play out the state the player should see
 	if (input->isPressed(sf::Keyboard::Enter))
 	{
 		switch (gameState->getCurrentState())
@@ -41,6 +40,7 @@ void TransitionLevel::handleInput(float dt)
 		case State::PRE_THREE:
 			gameState->setCurrentState(State::WIZARD);
 			break;
+			//this one is when you beat a level
 		case State::ENDGAME:
 			gameState->setCurrentState(State::RESET);
 			break;
@@ -50,7 +50,9 @@ void TransitionLevel::handleInput(float dt)
 
 void TransitionLevel::update(float dt)
 {
+	bg.setSize(sf::Vector2f(window->getView().getSize().x, window->getView().getSize().y));
 	// set text object by state.
+	//this defines which instructions will be shown to the player before they begin a certain game
 	switch (gameState->getCurrentState())
 	{
 	case State::PRE_ONE:
@@ -63,6 +65,7 @@ void TransitionLevel::update(float dt)
 		explain.setString("Move with WASD.\nMove in time with the claps.\nAvoid Tanks and Pits.\nThere is a checkpoint.\nYou will be assisted.\nKind of.\nHit Enter.\nGood Luck.");
 		break;
 	case State::ENDGAME:
+		//this stores the results for the user once they reach the required area
 		runResults* results = gameState->getResults();
 		std::string resultsString;
 		if (results->L1Time > 0)
@@ -87,6 +90,7 @@ void TransitionLevel::update(float dt)
 
 void TransitionLevel::render()
 {
+	//renders the objects to be drawn
 	beginDraw();
 	window->draw(bg);
 	window->draw(explain);

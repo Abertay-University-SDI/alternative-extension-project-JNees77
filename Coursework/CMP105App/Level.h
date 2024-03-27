@@ -29,7 +29,8 @@ private:
 	const float RESET_TIME = 1.0f;		// time for 'reset' state where player cannot move.
 	const float TIME_TO_DISPLAY_ALERT = 0.5f;	// how long (seconds) an alert is displayed for.
 
-	// possible actions chosen.
+	// possible actions chosen, assuming through keyboard pressed 
+	// (these are shown when timing in the games to move the character).
 	enum actions {
 		UP,
 		DOWN,
@@ -39,6 +40,7 @@ private:
 		FAIL
 	};
 
+	//objects
 	TextureManager* textMan;
 	GameObject gridBoard;
 	Player player;
@@ -61,6 +63,7 @@ private:
 	sf::Vector2i end = { 0, 8 };
 	sf::Vector2i checkPoint = { 19, 5 };
 	sf::Vector2i boardDimensions{ 20,10 };
+	//variables
 	bool checkPointEnabled;
 	float timeInStep = 0.f;
 	bool soundPlayed = false;
