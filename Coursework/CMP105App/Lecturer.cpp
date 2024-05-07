@@ -13,7 +13,7 @@ Lecturer::Lecturer(sf::RenderWindow* hwnd, TextureManager* tm)
 	//sets the size of the lecturer animation
 	setSize(sf::Vector2f(150, 150));
 	//puts the lecturers head in the bottom right corner using the window dimensions
-	setPosition(hwnd->getSize().x * 0.75, hwnd->getSize().y * 0.65);
+	setPosition(hwnd->getSize().x * 0.75, hwnd->getSize().y * 0.85);
 	//uses the lecturer sprite sheet in the gfx folder
 	setTexture(&tm->getTexture("lecturer"));
 	//addinf the dimensions of the frames for the animations

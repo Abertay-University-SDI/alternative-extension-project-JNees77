@@ -3,6 +3,9 @@
 #include <SFML/Graphics.hpp>
 #include "TextureManager.h"
 #include "Framework/BaseLevel.h"
+#include "Framework/Collision.h"
+#include "Button.h"
+#include "Cursor.h"
 
 class TitleScreen : BaseLevel {
 public:
@@ -13,6 +16,8 @@ public:
 	void update(float dt);
 	void render();
 
+	void ButtonSetup();
+
 	// Default functions for rendering to the screen.
 
 	// Default variables for level class.
@@ -22,10 +27,13 @@ public:
 	GameObject bg;
 	sf::Text explanationText;	
 	sf::Text titleText;
-	sf::Text singleRunText;
 	sf::Font montsFont;
 
+	sf::Text text[3];
+	Button buttons[3];
+	Cursor cursor;
 
 	float animTimer;
+	float x;
 
 };

@@ -1,5 +1,6 @@
 #include "Level.h"
-
+#include <iostream>
+//playerPosition
 Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud, TextureManager* tm)
 {
 	window = hwnd;
@@ -91,6 +92,8 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 	controlBG.setSize(sf::Vector2f(380, 280));
 	controlBG.setFillColor(sf::Color::Red);
 
+	change = cellDim / 20;
+
 	// setup grid component.
 	grid = StageGrid(
 		sf::Vector2i(numCols, numRows), 
@@ -157,6 +160,8 @@ void Level::handleInput(float dt)
 	float timeLeft = TIME_PER_STEP - timeInStep;
 	if (timeLeft > TIME_BUFFER && timeLeft < TIME_BUFFER + TIME_FOR_ACTION && selectedAction != FAIL)
 	{
+		tim = clock.restart();
+		distance = speed * timeCondition;
 		//depending on the action and if pressed at the right time displays one of the following
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
@@ -173,6 +178,25 @@ void Level::handleInput(float dt)
 			selectedAction = RIGHT;
 			//flips the players position back the other way
 			player.setFlipped(false);
+			//CHANGE
+			clock.restart();
+			timeCondition = 0.05f;
+			while (tim.asSeconds() < 1.f)
+			{
+				tim = clock.getElapsedTime();
+				
+				if (tim.asSeconds() > timeCondition)
+				{
+					std::cout << gridBoard.getPosition().x + change << '\n';
+					//problem line
+					//playerPosition.first
+					player.setPosition((gridBoard.getPosition().x + change), player.getPosition().y);
+					timeCondition += 0.05f;
+					change += cellDim/20;
+				}
+				update(dt);
+				render();
+			}
 
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
@@ -352,10 +376,12 @@ void Level::update(float dt)
 			playerPosition.first--;
 			break;
 		}
-		player.setPosition(sf::Vector2f(
+		//CHANGE
+		/*player.setPosition(sf::Vector2f(
 			gridBoard.getPosition().x + cellDim * playerPosition.first,
 			gridBoard.getPosition().y + cellDim * playerPosition.second)
-		);
+		);*/
+		std::cout << player.getPosition().x << "  " << player.getPosition().y << '\n';
 		if (grid.playerHit(playerPosition))
 		{
 			resetPlayer();
@@ -410,6 +436,13 @@ void Level::render()
 	}
 	//draws the alerts
 	window->draw(alert);
+	endDraw();
+}
+
+void Level::renderPlayer()
+{
+	beginDraw();
+	window->draw(player);
 	endDraw();
 }
 

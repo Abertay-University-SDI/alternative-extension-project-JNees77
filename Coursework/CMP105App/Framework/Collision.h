@@ -4,6 +4,7 @@
 
 #pragma once
 #include "GameObject.h"
+#include <iostream>;
 
 // Static class provide collision detection functions.
 class Collision

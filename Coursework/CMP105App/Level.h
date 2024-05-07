@@ -16,6 +16,7 @@ public:
 	void handleInput(float dt) override;
 	void update(float dt);
 	void render();
+	void renderPlayer();
 	void reset();
 	void resetPlayer();
 
@@ -72,10 +73,16 @@ private:
 	float damagedTimer = 0.f;
 	float alertHasBeenActiveFor = TIME_TO_DISPLAY_ALERT;
 	float boardTop, boardRight, boardBottom, boardLeft;
-	
+	float distance;
+	sf::Time tim;
+	sf::Clock clock;
+	float speed = 10.f;
+	float timeCondition = 0.05f;
 	// analytics values
 	float timeTaken = 0.f;
 	int misses = 0;
 	int deaths = 0;
+
+	float change = 0;
 };
 

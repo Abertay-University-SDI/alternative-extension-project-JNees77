@@ -10,6 +10,7 @@
 #include "TransitionLevel.h"
 #include "RunnerLevel.h"
 #include "WizardLevel.h"
+#include "Button.h"
 #include "TextureManager.h"
 #include "Framework/AudioManager.h"
 #include "Framework/GameState.h"
@@ -86,7 +87,7 @@ int main()
 	WizardLevel wizardLevel(&window, &input, &gameState, &audioManager, textureManager, 2);
 	TransitionLevel transLevel(&window, &input, &gameState, &audioManager, textureManager);
 	RunnerLevel runnerLevel(&window, &input, &gameState, &audioManager, textureManager);
-
+	Button button(&window, &input);
 	// begin on the title screen
 	gameState.setCurrentState(State::TITLE);
 
@@ -96,6 +97,7 @@ int main()
 
 	// crank the music
 	audioManager.playMusicbyName("digitalLove");
+
 
 
 	// Game Loop
@@ -115,6 +117,8 @@ int main()
 			TitleScreen.handleInput(deltaTime);
 			TitleScreen.update(deltaTime);
 			TitleScreen.render();
+			//It can render
+			//button.render();
 			break;
 		case State::LEVEL:
 			motivationLevel.handleInput(deltaTime);
