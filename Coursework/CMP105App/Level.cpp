@@ -27,6 +27,13 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 	//gets the window proportions
 	float windowWidth = window->getSize().x;
 	float windowHeight = window->getSize().y;
+
+	TextBox.setPosition(sf::Vector2f(window->getSize().x * 0.5, window->getSize().y * 0.66));
+	TextBox.setSize(sf::Vector2f(window->getSize().x * 0.4, window->getSize().y * 0.2));
+	TextBox.setFillColor(sf::Color::Black);
+	TextBox.setOutlineColor(sf::Color::Magenta);
+	TextBox.setOutlineThickness(3.f);
+
 	boardTop = windowHeight * 0.05;	// the board is as wide as can be with the given constants.
 	boardLeft = boardTop;	// uniform top and side padding.
 	boardRight = windowWidth - boardLeft;
@@ -313,7 +320,7 @@ void Level::update(float dt)
 	case NONE:
 		controls[0].setString("none");
 		break;
-	}
+	}//getMessageToDisplay
 
 	// update progress component
 	//this is the bar that moves that requires you to tap in the blue box (code for blue box above)
@@ -419,11 +426,19 @@ void Level::render()
 	window->draw(progressInStepBG);
 	window->draw(targetZone);
 	window->draw(progressInStep);
+	//added
+	window->draw(TextBox);
 	window->draw(lecturer);
-	if(!lecturer.getMessageToDisplay(boardTop, boardRight, boardBottom, boardLeft).getString().isEmpty())
-		window->draw(lecturer.getMessageToDisplay(boardTop, boardRight, boardBottom, boardLeft));
+	//if(!lecturer.getMessageToDisplay(boardTop, boardRight, boardBottom, boardLeft).getString().isEmpty())
+		//window->draw(lecturer.getMessageToDisplay(boardTop, boardRight, boardBottom, boardLeft));
+	if (!lecturer.getMessageToDisplay(TextBox.getPosition().y, TextBox.getPosition().x + TextBox.getSize().x,
+		(TextBox.getPosition().y + TextBox.getSize().y), TextBox.getPosition().x).getString().isEmpty());
+	{
+		window->draw(lecturer.getMessageToDisplay(TextBox.getPosition().y, TextBox.getPosition().x + TextBox.getSize().x,
+			TextBox.getPosition().y + TextBox.getSize().y - 40, TextBox.getPosition().x));
+	}
 	window->draw(controlBG);
-
+	//sizeTextToGrid
 	for (GameObject ind : indicators)
 	{
 		//draws the indicators like (->)

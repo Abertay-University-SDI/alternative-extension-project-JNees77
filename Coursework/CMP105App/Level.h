@@ -52,6 +52,9 @@ private:
 	GameObject progressInStepBG;
 	GameObject levelBG;
 	GameObject controlBG;
+
+	GameObject TextBox;
+
 	std::pair<int, int> playerPosition;
 	actions selectedAction;
 	std::vector<GameObject> indicators;

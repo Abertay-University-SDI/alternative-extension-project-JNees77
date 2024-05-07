@@ -113,7 +113,7 @@ sf::Text Lecturer::sizeTextToGrid(sf::Text t, float boardTop, float boardRight, 
 	sf::Text resizedText = t;
 
 	// Calculate the maximum character size that fits within the grid dimensions
-	int maxCharacterSize = 40;
+	int maxCharacterSize = 30;
 
 	resizedText.setPosition(sf::Vector2f(boardLeft, boardTop));
 
@@ -123,7 +123,7 @@ sf::Text Lecturer::sizeTextToGrid(sf::Text t, float boardTop, float boardRight, 
 		maxCharacterSize < maxSize)
 	{
 		resizedText.setCharacterSize(maxCharacterSize);
-		maxCharacterSize+=5;
+		maxCharacterSize++;
 
 		//// check if it is now too wide and therefore needing a newline.
 		//if (resizedText.getLocalBounds().width > boardRight - boardLeft)
@@ -142,7 +142,6 @@ sf::Text Lecturer::sizeTextToGrid(sf::Text t, float boardTop, float boardRight, 
 		//	}
 		//}
 	}
-
 	return resizedText;
 }
 
