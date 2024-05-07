@@ -99,7 +99,8 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 	controlBG.setSize(sf::Vector2f(380, 280));
 	controlBG.setFillColor(sf::Color::Red);
 
-	change = cellDim / 20;
+	changeX = cellDim / 20;
+	changeY = cellDim / 20;
 
 	// setup grid component.
 	grid = StageGrid(
@@ -156,6 +157,11 @@ Level::~Level()
 // handle user input
 void Level::handleInput(float dt)
 {
+	player.setPosition(sf::Vector2f(
+		gridBoard.getPosition().x + cellDim * playerPosition.first,
+		gridBoard.getPosition().y + cellDim * playerPosition.second)
+	);
+
 	if (damagedTimer > 0)
 	{
 		damagedTimer -= dt;
@@ -175,10 +181,43 @@ void Level::handleInput(float dt)
 			selectedAction = LEFT;
 			//flips the players animation
 			player.setFlipped(true);
+
+
+			clock.restart();
+			timeCondition = 0.05f;
+			while (tim.asSeconds() < 1.f)
+			{
+				tim = clock.getElapsedTime();
+
+				if (tim.asSeconds() > timeCondition)
+				{
+					player.setPosition((gridBoard.getPosition().x + changeX), player.getPosition().y);
+					timeCondition += 0.05f;
+					changeX -= cellDim / 20;
+				}
+				update(dt);
+				render();
+			}
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			selectedAction = UP;
+
+			clock.restart();
+			timeCondition = 0.05f;
+			while (tim.asSeconds() < 1.f)
+			{
+				tim = clock.getElapsedTime();
+
+				if (tim.asSeconds() > timeCondition)
+				{
+					player.setPosition(player.getPosition().x, (gridBoard.getPosition().y + changeY + (cellDim*3)));
+					timeCondition += 0.05f;
+					changeY -= cellDim / 20;
+				}
+				update(dt);
+				render();
+			}
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
@@ -194,12 +233,9 @@ void Level::handleInput(float dt)
 				
 				if (tim.asSeconds() > timeCondition)
 				{
-					std::cout << gridBoard.getPosition().x + change << '\n';
-					//problem line
-					//playerPosition.first
-					player.setPosition((gridBoard.getPosition().x + change), player.getPosition().y);
+					player.setPosition((gridBoard.getPosition().x + changeX), player.getPosition().y);
 					timeCondition += 0.05f;
-					change += cellDim/20;
+					changeX += cellDim/20;
 				}
 				update(dt);
 				render();
@@ -209,6 +245,22 @@ void Level::handleInput(float dt)
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
 			selectedAction = DOWN;
+
+			clock.restart();
+			timeCondition = 0.05f;
+			while (tim.asSeconds() < 1.f)
+			{
+				tim = clock.getElapsedTime();
+
+				if (tim.asSeconds() > timeCondition)
+				{
+					player.setPosition(player.getPosition().x, (gridBoard.getPosition().y + changeY) + (cellDim * 3));
+					timeCondition += 0.05f;
+					changeY += cellDim / 20;
+				}
+				update(dt);
+				render();
+			}
 		}
 		alert.setString("");
 	}
@@ -388,7 +440,6 @@ void Level::update(float dt)
 			gridBoard.getPosition().x + cellDim * playerPosition.first,
 			gridBoard.getPosition().y + cellDim * playerPosition.second)
 		);*/
-		std::cout << player.getPosition().x << "  " << player.getPosition().y << '\n';
 		if (grid.playerHit(playerPosition))
 		{
 			resetPlayer();
@@ -467,13 +518,25 @@ Put player back to the starting space.
 void Level::resetPlayer()
 {
 	//if the player dies resets everything using this code
-	if(checkPointEnabled) playerPosition = { checkPoint.x, checkPoint.y };
-	else playerPosition = { start.x, start.y };
+	if (checkPointEnabled)
+	{
+		playerPosition = { checkPoint.x, checkPoint.y };
+		changeX = playerPosition.first * cellDim;
+		changeY = playerPosition.second * cellDim - (cellDim *3);
+
+	}
+	else
+	{
+		playerPosition = { start.x, start.y };
+		changeX = cellDim / 20;
+		changeY = cellDim / 20;
+	}
 	//plays a death sound and increases death counter
 	audio->playSoundbyName("death");
 	damagedTimer = RESET_TIME;
 	player.setDamaged(damagedTimer);
 	deaths++;
+	
 }
 
 void Level::reset()

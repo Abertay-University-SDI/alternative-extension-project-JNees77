@@ -86,6 +86,7 @@ private:
 	int misses = 0;
 	int deaths = 0;
 
-	float change = 0;
+	float changeX = 0;
+	float changeY = 0;
 };
 
