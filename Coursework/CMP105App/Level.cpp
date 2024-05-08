@@ -19,8 +19,7 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 	// initialise background. base size: 5760, 3240
 	//This is the background from the start of the game
 	levelBG.setTexture(&textMan->getTexture("redSkyBG"));
-	float bgScalar = std::max(hwnd->getSize().x / 5760.f, hwnd->getSize().y / 3240.f);
-	levelBG.setSize(sf::Vector2f(5760*bgScalar, 3240*bgScalar));
+	//float bgScalar = std::max(hwnd->getSize().x / 5760.f, hwnd->getSize().y / 3240.f);
 
 	// initialise grid board
 	// .. first calculate size. 
@@ -291,6 +290,8 @@ void Level::handleInput(float dt)
 // Update game objects
 void Level::update(float dt)
 {
+	levelBG.setSize(sf::Vector2f(window->getSize()));
+
 	// display alert or reset alert.
 	if (alert.getString() != "" && alertHasBeenActiveFor < TIME_TO_DISPLAY_ALERT)
 	{
@@ -372,7 +373,7 @@ void Level::update(float dt)
 	case NONE:
 		controls[0].setString("none");
 		break;
-	}//getMessageToDisplay
+	}//setDamaged
 
 	// update progress component
 	//this is the bar that moves that requires you to tap in the blue box (code for blue box above)
@@ -447,6 +448,8 @@ void Level::update(float dt)
 		selectedAction = NONE;
 
 	}
+	//indicators
+
 	// update alert for early/late if needed.
 	if (alert.getString() == "" && selectedAction == FAIL)
 	{

@@ -117,8 +117,6 @@ int main()
 			TitleScreen.handleInput(deltaTime);
 			TitleScreen.update(deltaTime);
 			TitleScreen.render();
-			//It can render
-			//button.render();
 			break;
 		case State::LEVEL:
 			motivationLevel.handleInput(deltaTime);

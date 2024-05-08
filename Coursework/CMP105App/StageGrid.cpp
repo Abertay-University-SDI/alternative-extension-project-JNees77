@@ -136,9 +136,12 @@ void StageGrid::update(int frames)
 	// for every column.
 	for (int x = 0; x < grid.size(); ++x)
 	{
+		//when y = 9, then x increments until it = 20, then repeats again
+		std::cout << "x: " << x << '\n';
 		// for every cell.
 		for (int y = 0; y < grid[x].size(); y++)
 		{
+			std::cout << "y: " << y << '\n';
 			// check if there are hazards that need to move.
 			switch (grid[x][y])
 			{
