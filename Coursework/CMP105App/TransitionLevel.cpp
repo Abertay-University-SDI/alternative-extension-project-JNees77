@@ -19,14 +19,14 @@ TransitionLevel::TransitionLevel(sf::RenderWindow* hwnd, Input* in, GameState* g
 	bg.setTexture(&textMan->getTexture("redSkyBG"));
 
 	cursor = Cursor(window, input);
-	returnButton = Button(window, input);
-	returnButton.setPositioning(sf::Vector2f(window->getSize().x * 0.9, window->getSize().y * 0.1));
-	returnButton.setSize(sf::Vector2f(window->getSize().x * 0.15, window->getSize().y * 0.075));
+	returnButton = Button(window, input, sf::Vector2f(window->getSize().x * 0.15, window->getSize().y * 0.075), sf::Vector2f(window->getSize().x * 0.9, window->getSize().y * 0.1));
+	//returnButton.setPositioning(sf::Vector2f(window->getSize().x * 0.9, window->getSize().y * 0.1));
+	//returnButton.setSize(sf::Vector2f(window->getSize().x * 0.15, window->getSize().y * 0.075));
 	buttonTxt.setFont(font);
 	buttonTxt.setString("Return");
 	buttonTxt.setCharacterSize(20);
 	buttonTxt.setOutlineThickness(3.f);
-	buttonTxt.setPosition(returnButton.getPosition().x - returnButton.getSize().x / 2, returnButton.getPosition().y - returnButton.getSize().y / 2);
+	buttonTxt.setPosition(returnButton.getPosition().x - returnButton.getSize().x/4, returnButton.getPosition().y - returnButton.getSize().y/4);
 }
 
 TransitionLevel::~TransitionLevel()

@@ -4,6 +4,7 @@
 // Set the current state
 void GameState::setCurrentState(State s)
 {
+	storePreviousState(currentState);
 	currentState = s;
 }
 
@@ -11,6 +12,16 @@ void GameState::setCurrentState(State s)
 State GameState::getCurrentState()
 {
 	return currentState;
+}
+
+void GameState::storePreviousState(State prevState)
+{
+	prevState = currentState;
+}
+
+State GameState::getPreviousState()
+{
+	return prevState;
 }
 
 void GameState::addResult(std::string attr, float v)

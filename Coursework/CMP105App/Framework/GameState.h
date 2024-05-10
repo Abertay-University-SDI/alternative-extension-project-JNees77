@@ -47,9 +47,13 @@ public:
 	bool getSingleRun();
 	void setSingleRun(bool t);
 
+	State getPreviousState();
+	void storePreviousState(State s);
+
 
 protected:
 	State currentState;
+	State prevState;
 	runResults* results = new runResults();
 	bool singleRun;
 };

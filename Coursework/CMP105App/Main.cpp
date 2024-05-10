@@ -10,7 +10,7 @@
 #include "TransitionLevel.h"
 #include "RunnerLevel.h"
 #include "WizardLevel.h"
-#include "Button.h"
+#include "PauseLevel.h"
 #include "TextureManager.h"
 #include "Framework/AudioManager.h"
 #include "Framework/GameState.h"
@@ -87,7 +87,7 @@ int main()
 	WizardLevel wizardLevel(&window, &input, &gameState, &audioManager, textureManager, 2);
 	TransitionLevel transLevel(&window, &input, &gameState, &audioManager, textureManager);
 	RunnerLevel runnerLevel(&window, &input, &gameState, &audioManager, textureManager);
-	Button button(&window, &input);
+	PauseLevel pause(&window, &input, &gameState);
 	// begin on the title screen
 	gameState.setCurrentState(State::TITLE);
 
@@ -117,6 +117,9 @@ int main()
 			TitleScreen.handleInput(deltaTime);
 			TitleScreen.update(deltaTime);
 			TitleScreen.render();
+			motivationLevel.reset();
+			runnerLevel.reset();
+			wizardLevel.reset();
 			break;
 		case State::LEVEL:
 			motivationLevel.handleInput(deltaTime);
@@ -151,6 +154,12 @@ int main()
 			audioManager.playMusicbyName("digitalLove");
 			gameState = GameState();
 			gameState.setCurrentState(State::TITLE);
+			break;
+		case State::PAUSE:
+			//pauses level and displays options
+			pause.handleInput(deltaTime);
+			pause.update(deltaTime);
+			pause.render();
 			break;
 		}		
 		

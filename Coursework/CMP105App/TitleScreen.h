@@ -29,8 +29,8 @@ public:
 	sf::Text titleText;
 	sf::Font montsFont;
 
-	sf::Text text[3];
-	Button buttons[3];
+	sf::Text text[4];
+	Button buttons[4];
 	Cursor cursor;
 
 	float animTimer;

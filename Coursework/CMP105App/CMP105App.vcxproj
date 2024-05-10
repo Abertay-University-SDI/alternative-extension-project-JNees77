@@ -252,6 +252,7 @@
     <ClCompile Include="Lecturer.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PauseLevel.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RunnerLevel.cpp" />
     <ClCompile Include="StageGrid.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="LecturEH.h" />
     <ClInclude Include="Lecturer.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="PauseLevel.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RunnerLevel.h" />
     <ClInclude Include="StageGrid.h" />

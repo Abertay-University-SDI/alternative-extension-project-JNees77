@@ -3,13 +3,16 @@
 #include <SFML/Graphics.hpp>
 #include "Framework/BaseLevel.h"
 #include "Framework/GameObject.h"
+#include "Framework/Collision.h"
 #include "TextureManager.h"
 #include "StageGrid.h"
 #include "Player.h"
 #include "Lecturer.h"
+#include "Button.h"
 
 class Level : BaseLevel{
 public:
+	Level();
 	Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud, TextureManager* tm);
 	~Level();
 
@@ -52,6 +55,9 @@ private:
 	GameObject progressInStepBG;
 	GameObject levelBG;
 	GameObject controlBG;
+
+	//pause indication text
+	sf::Text text;
 
 	GameObject TextBox;
 

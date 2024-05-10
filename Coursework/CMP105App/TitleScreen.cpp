@@ -25,20 +25,24 @@ TitleScreen::TitleScreen(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 	titleText.setPosition(10, window->getSize().y * 0.2);
 	titleText.setCharacterSize(60);
 
-
-	for (int i = 0; i < 3; i++)
+	x = window->getSize().x / 1.25;
+	for (int i = 0; i < 4; i++)
 	{
-		buttons[i] = Button(window, in);
+		buttons[i] = Button(window, in, sf::Vector2f(400,100), sf::Vector2f(x, (i + 1) * 200));
 		text[i].setFont(montsFont);
 		text[i].setCharacterSize(24);
 		text[i].setOutlineThickness(3.f);
 		text[i].setFillColor(sf::Color::White);
 	}
+	
+	buttons[3].setSize(sf::Vector2f(125, 75));
+	buttons[3].setPosition(sf::Vector2f(window->getSize().x * 0.95, window->getSize().y * 0.05));
 	cursor = Cursor(window, in);
 
 	text[0].setString("Practice LECTURER");
 	text[1].setString("Practice RUNNER");
 	text[2].setString("Practice WIZARD");
+	text[3].setString("Exit");
 
 	// .. background
 	// initialise background. base size: 1920, 1080
@@ -68,17 +72,23 @@ void TitleScreen::handleInput(float dt)
 		gameState->setCurrentState(State::PRE_THREE);
 		gameState->setSingleRun(false);
 	}
+	if (Collision::checkBoundingBox(&buttons[3], &cursor) && input->isRightMouseDown())
+	{
+		exit(0);
+	}
 
 }
 
 void TitleScreen::ButtonSetup()
 {
-	x = window->getSize().x / 1.25;
+	
 	for (int i = 0; i < 3; i++)
 	{
-		buttons[i].setPositioning(sf::Vector2f( x, (i + 1) * 200));
+		//buttons[i].setPositioning(sf::Vector2f( x, (i + 1) * 200));
 		text[i].setPosition(buttons[i].getPosition().x - buttons[i].getSize().x/4, buttons[i].getPosition().y - buttons[i].getSize().y / 8);
 	}
+	//buttons[3].setPositioning(sf::Vector2f(window->getSize().x * 0.95, window->getSize().y * 0.05));
+	text[3].setPosition(buttons[3].getPosition().x - buttons[3].getSize().x / 4, buttons[3].getPosition().y - buttons[3].getSize().y / 8);
 }
 
 void TitleScreen::update(float dt)
@@ -93,7 +103,7 @@ void TitleScreen::update(float dt)
 	animTimer += dt;
 
 	ButtonSetup();
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		buttons[i].update(dt);
 	}
@@ -106,7 +116,7 @@ void TitleScreen::render()
 {
 	beginDraw();
 	window->draw(bg);
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		buttons[i].render(window);
 		window->draw(text[i]);

@@ -1,6 +1,10 @@
 #include "Level.h"
 #include <iostream>
 //playerPosition
+Level::Level()
+{
+
+}
 Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud, TextureManager* tm)
 {
 	window = hwnd;
@@ -284,6 +288,11 @@ void Level::handleInput(float dt)
 			selectedAction = FAIL;
 		}
 		
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+	{
+		gameState->setCurrentState(State::PAUSE);
 	}
 }
 
@@ -614,6 +623,9 @@ void Level::reset()
 		220
 	));
 	targetZone.setFillColor(sf::Color::Blue);
+
+	changeX = cellDim / 20;
+	changeY = cellDim / 20;
 
 	// setup grid component.
 	grid = StageGrid(
