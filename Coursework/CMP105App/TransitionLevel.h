@@ -1,7 +1,10 @@
 #pragma once
 #include "Framework/BaseLevel.h"
 #include "Framework/GameObject.h"
+#include "Framework/Collision.h"
 #include "TextureManager.h"
+#include "Cursor.h"
+#include "Button.h"
 class TransitionLevel : public BaseLevel
 {
 public:
@@ -17,6 +20,10 @@ private:
 	sf::Font font;
 	sf::Text explain;
 	GameObject bg;
+
+	Cursor cursor;
+	Button returnButton;
+	sf::Text buttonTxt;
 
 
 };

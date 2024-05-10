@@ -17,6 +17,16 @@ TransitionLevel::TransitionLevel(sf::RenderWindow* hwnd, Input* in, GameState* g
 
 	// initialise background. base size: 5760, 3240
 	bg.setTexture(&textMan->getTexture("redSkyBG"));
+
+	cursor = Cursor(window, input);
+	returnButton = Button(window, input);
+	returnButton.setPositioning(sf::Vector2f(window->getSize().x * 0.9, window->getSize().y * 0.1));
+	returnButton.setSize(sf::Vector2f(window->getSize().x * 0.15, window->getSize().y * 0.075));
+	buttonTxt.setFont(font);
+	buttonTxt.setString("Return");
+	buttonTxt.setCharacterSize(20);
+	buttonTxt.setOutlineThickness(3.f);
+	buttonTxt.setPosition(returnButton.getPosition().x - returnButton.getSize().x / 2, returnButton.getPosition().y - returnButton.getSize().y / 2);
 }
 
 TransitionLevel::~TransitionLevel()
@@ -46,11 +56,20 @@ void TransitionLevel::handleInput(float dt)
 			break;
 		}
 	}
+
+	if (Collision::checkBoundingBox(&returnButton, &cursor) && input->isRightMouseDown())
+	{
+		gameState->setCurrentState(State::TITLE);
+		gameState->setSingleRun(false);
+	}
 }
 
 void TransitionLevel::update(float dt)
 {
-	bg.setSize(sf::Vector2f(window->getView().getSize().x, window->getView().getSize().y));
+    bg.setSize(sf::Vector2f(window->getView().getSize().x, window->getView().getSize().y));
+
+	cursor.update(dt);
+	returnButton.update(dt);
 	// set text object by state.
 	//this defines which instructions will be shown to the player before they begin a certain game
 	switch (gameState->getCurrentState())
@@ -86,6 +105,7 @@ void TransitionLevel::update(float dt)
 		explain.setString(resultsString + "\nPress Enter to continue.");
 		break;
 	}
+
 }
 
 void TransitionLevel::render()
@@ -94,5 +114,8 @@ void TransitionLevel::render()
 	beginDraw();
 	window->draw(bg);
 	window->draw(explain);
+	returnButton.render(window);
+	window->draw(buttonTxt);
+	
 	endDraw();
 }

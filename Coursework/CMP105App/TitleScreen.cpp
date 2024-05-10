@@ -53,26 +53,6 @@ TitleScreen::~TitleScreen()
 
 void TitleScreen::handleInput(float dt)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-	{
-		gameState->setCurrentState(State::PRE_ONE);
-		gameState->setSingleRun(false);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
-	{
-		gameState->setCurrentState(State::PRE_ONE);
-		gameState->setSingleRun(true);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
-	{
-		gameState->setCurrentState(State::PRE_TWO);
-		gameState->setSingleRun(true);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
-	{
-		gameState->setCurrentState(State::PRE_THREE);
-		gameState->setSingleRun(true);
-	}
 	if (Collision::checkBoundingBox(&buttons[0], &cursor) && input->isRightMouseDown())
 	{
 		gameState->setCurrentState(State::PRE_ONE);
