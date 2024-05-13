@@ -17,11 +17,11 @@ TitleScreen::TitleScreen(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 	// .. for the text
 	montsFont.loadFromFile("font/montS.ttf");
 	explanationText.setFont(montsFont);
-	explanationText.setString("The Forbidden Rhythms.\n\tYou must unleash them.\n\t\tYour fans are waiting.\n\t\t\tHit a button to\n\t\t\t\tBegin.");
+	explanationText.setString("Dino Dancing Minigames.\n\tIt google dino game 2!!.\n\t\tComing back better\n\t\t\t\tthan ever.\n\t\tHit a button to begin.");
 	explanationText.setPosition(window->getSize().x * 0.3, window->getSize().y * 0.2);
 	explanationText.setCharacterSize(40);
 	titleText.setFont(montsFont);
-	titleText.setString("FORBIDDEN\n\tRHYTHMS");
+	titleText.setString("DINO\n\tDANCING\n\tMINIGAMES");
 	titleText.setPosition(10, window->getSize().y * 0.2);
 	titleText.setCharacterSize(60);
 
