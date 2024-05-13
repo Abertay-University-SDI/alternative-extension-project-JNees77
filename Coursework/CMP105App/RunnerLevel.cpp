@@ -16,6 +16,7 @@ RunnerLevel::RunnerLevel(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 	gameState = gs;
 	audio = aud;
 	textMan = tm;
+
 	//allows for a change in the level everytime the code runs
 	std::srand(static_cast<unsigned>(std::time(nullptr)));
 
@@ -122,7 +123,10 @@ void RunnerLevel::handleInput(float dt)
 	{
 		p.setKicking(0.5);
 	}
-	
+	if (input->isPressed(sf::Keyboard::P))
+	{
+		gameState->setCurrentState(State::PAUSE);
+	}
 }
 
 bool RunnerLevel::colliding(GameObject obj)

@@ -83,6 +83,9 @@ WizardLevel::WizardLevel(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 	controlBG.setSize(sf::Vector2f(380, 280));
 	controlBG.setFillColor(sf::Color::Red);
 
+	changeX = cellDim / 20;
+	changeY = cellDim / 20;
+
 	// setup grid component.
 	grid = StageGrid(
 		sf::Vector2i(numCols, numRows),
@@ -115,11 +118,18 @@ WizardLevel::WizardLevel(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 	lecturer->setSize(sf::Vector2f(window->getSize().y*0.2, window->getSize().y * 0.2));
 	lecturer->setPosition(window->getSize().x * 0.7, window->getSize().y*0.65);
 }
-
+//playerPosition.first++
 WizardLevel::~WizardLevel() {}
 
 void WizardLevel::handleInput(float dt)
 {
+	player.setPosition(sf::Vector2f(
+		gridBoard.getPosition().x + cellDim * playerPosition.first,
+		gridBoard.getPosition().y + cellDim * playerPosition.second)
+	);
+
+	tim = clock.restart();
+	distance = speed * timeCondition;
 	// user can't press buttons while resetting.
 	if (damagedTimer > 0)
 	{
@@ -208,7 +218,24 @@ void WizardLevel::handleInput(float dt)
 				selectedAction = RIGHT;
 			}
 		}
-		if (selectedAction == LEFT) player.setFlipped(true);
+		if (selectedAction == RIGHT)
+		{
+			player.setFlipped(false);
+			right(dt);
+		}
+		else if (selectedAction == LEFT)
+		{
+			player.setFlipped(true);
+			left(dt);
+		}
+		else if (selectedAction == UP)
+		{
+			up(dt);
+		}
+		else if (selectedAction == DOWN)
+		{
+			down(dt);
+		}
 	}
 	else
 	{
@@ -230,6 +257,11 @@ void WizardLevel::handleInput(float dt)
 		{
 			stepFailed = true;
 		}
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+	{
+		gameState->setCurrentState(State::PAUSE);
 	}
 }
 
@@ -372,10 +404,7 @@ void WizardLevel::update(float dt)
 			playerPosition.first--;
 			break;
 		}
-		player.setPosition(sf::Vector2f(
-			gridBoard.getPosition().x + cellDim * playerPosition.first,
-			gridBoard.getPosition().y + cellDim * playerPosition.second)
-		);
+		//Change
 		if (grid.playerHit(playerPosition))
 		{
 			resetPlayer();
@@ -404,6 +433,79 @@ void WizardLevel::render()
 		window->draw(label);
 	}
 	endDraw();
+}
+void WizardLevel::left(float dt)
+{
+	clock.restart();
+	timeCondition = 0.05f;
+	while (tim.asSeconds() < 1.f)
+	{
+		tim = clock.getElapsedTime();
+
+		if (tim.asSeconds() > timeCondition)
+		{
+			player.setPosition((gridBoard.getPosition().x + changeX), player.getPosition().y);
+			timeCondition += 0.025f;
+			changeX -= cellDim / 20;
+		}
+		update(dt);
+		render();
+	}
+}
+void WizardLevel::right(float dt)
+{
+	clock.restart();
+	timeCondition = 0.05f;
+	while (tim.asSeconds() < 1.f)
+	{
+		tim = clock.getElapsedTime();
+
+		if (tim.asSeconds() > timeCondition)
+		{
+			player.setPosition((gridBoard.getPosition().x + changeX), player.getPosition().y);
+			timeCondition += 0.025f;
+			changeX += cellDim / 20;
+			std::cout << timeCondition << '\n';
+		}
+		render();
+		update(dt);
+	}
+}
+void WizardLevel::up(float dt)
+{
+	clock.restart();
+	timeCondition = 0.05f;
+	while (tim.asSeconds() < 1.f)
+	{
+		tim = clock.getElapsedTime();
+
+		if (tim.asSeconds() > timeCondition)
+		{
+			player.setPosition(player.getPosition().x, (gridBoard.getPosition().y + changeY));
+			timeCondition += 0.025f;
+			changeY -= cellDim / 20;
+		}
+		update(dt);
+		render();
+	}
+}
+void WizardLevel::down(float dt)
+{
+	clock.restart();
+	timeCondition = 0.05f;
+	while (tim.asSeconds() < 1.f)
+	{
+		tim = clock.getElapsedTime();
+
+		if (tim.asSeconds() > timeCondition)
+		{
+			player.setPosition(player.getPosition().x, (gridBoard.getPosition().y + changeY));
+			timeCondition += 0.025f;
+			changeY += cellDim / 20;
+		}
+		update(dt);
+		render();
+	}
 }
 
 // change order of WASD controls
@@ -519,8 +621,18 @@ Put player back to the starting space.
 */
 void WizardLevel::resetPlayer()
 {
-	if (checkPointEnabled) playerPosition = { checkPoint.x, checkPoint.y };
-	else playerPosition = { start.x, start.y };
+	if (checkPointEnabled)
+	{
+		playerPosition = { checkPoint.x, checkPoint.y };
+		changeX = playerPosition.first * cellDim;
+		changeY = playerPosition.second * cellDim;
+	}
+	else
+	{
+		playerPosition = { start.x, start.y };
+		changeX = cellDim / 20;
+		changeY = cellDim / 20;
+	}
 	audio->playSoundbyName("death");
 	damagedTimer = RESET_TIME;
 	player.setDamaged(damagedTimer);

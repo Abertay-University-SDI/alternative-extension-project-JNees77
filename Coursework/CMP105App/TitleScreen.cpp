@@ -57,22 +57,22 @@ TitleScreen::~TitleScreen()
 
 void TitleScreen::handleInput(float dt)
 {
-	if (Collision::checkBoundingBox(&buttons[0], &cursor) && input->isRightMouseDown())
+	if (Collision::checkBoundingBox(&buttons[0], &cursor) && input->isLeftMouseDown())
 	{
 		gameState->setCurrentState(State::PRE_ONE);
 		gameState->setSingleRun(false);
 	}
-	if (Collision::checkBoundingBox(&buttons[1], &cursor) && input->isRightMouseDown())
+	if (Collision::checkBoundingBox(&buttons[1], &cursor) && input->isLeftMouseDown())
 	{
 		gameState->setCurrentState(State::PRE_TWO);
 		gameState->setSingleRun(false);
 	}
-	if (Collision::checkBoundingBox(&buttons[2], &cursor) && input->isRightMouseDown())
+	if (Collision::checkBoundingBox(&buttons[2], &cursor) && input->isLeftMouseDown())
 	{
 		gameState->setCurrentState(State::PRE_THREE);
 		gameState->setSingleRun(false);
 	}
-	if (Collision::checkBoundingBox(&buttons[3], &cursor) && input->isRightMouseDown())
+	if (Collision::checkBoundingBox(&buttons[3], &cursor) && input->isLeftMouseDown())
 	{
 		exit(0);
 	}

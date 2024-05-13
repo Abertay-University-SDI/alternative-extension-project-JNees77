@@ -4,7 +4,9 @@
 #include "Framework/BaseLevel.h"
 #include "Framework/GameObject.h"
 #include "Framework/Collision.h"
+#include "TextureManager.h"
 #include "Framework/Input.h"
+#include <Windows.h>
 #include "Lecturer.h"
 #include "Level.h"
 
@@ -15,12 +17,17 @@ class PauseLevel:public BaseLevel
 {
 public:
 	PauseLevel();
-	PauseLevel(sf::RenderWindow* hwnd, Input* in, GameState* gs);
+	PauseLevel(sf::RenderWindow* hwnd, Input* in, GameState* gs, TextureManager* tm);
 	~PauseLevel();
 
 	void update(float dt) override;
 	void handleInput(float dt) override;
 	void render();
+
+	GameObject fan;
+	GameObject bg;
+
+	TextureManager* textMan;
 
 	Button button[2];
 	sf::Font font;
@@ -31,6 +38,6 @@ public:
 
 private:
 
-	float x, y;
+	float x, y, animTimer;
 };
 

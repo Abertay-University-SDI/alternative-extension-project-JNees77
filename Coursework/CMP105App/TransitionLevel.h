@@ -5,6 +5,8 @@
 #include "TextureManager.h"
 #include "Cursor.h"
 #include "Button.h"
+#include <Windows.h>
+
 class TransitionLevel : public BaseLevel
 {
 public:

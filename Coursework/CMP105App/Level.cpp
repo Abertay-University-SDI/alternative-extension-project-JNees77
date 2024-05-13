@@ -164,7 +164,7 @@ void Level::handleInput(float dt)
 		gridBoard.getPosition().x + cellDim * playerPosition.first,
 		gridBoard.getPosition().y + cellDim * playerPosition.second)
 	);
-
+	//cout
 	if (damagedTimer > 0)
 	{
 		damagedTimer -= dt;
@@ -194,7 +194,7 @@ void Level::handleInput(float dt)
 
 				if (tim.asSeconds() > timeCondition)
 				{
-					player.setPosition((gridBoard.getPosition().x + changeX), player.getPosition().y);
+					player.setPosition((player.getPosition().x + changeX), player.getPosition().y);
 					timeCondition += 0.05f;
 					changeX -= cellDim / 20;
 				}
@@ -290,7 +290,7 @@ void Level::handleInput(float dt)
 		
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+	if (input->isKeyDown(sf::Keyboard::P))
 	{
 		gameState->setCurrentState(State::PAUSE);
 	}

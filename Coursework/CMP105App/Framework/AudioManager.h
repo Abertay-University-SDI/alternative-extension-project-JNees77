@@ -32,6 +32,10 @@ public:
 	void stopAllMusic();
 	// Return pointer to music object. Useful for controlling looping, play state, volume etc.
 	sf::Music* getMusic();
+	//sets the volume
+	void setMusicVolume(float volume);
+	//sets music pitch
+	void setMusicPitch(float pitch);
 
 private:
 	// List of sounds

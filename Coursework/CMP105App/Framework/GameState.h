@@ -16,7 +16,8 @@ enum class State {
 	ENDGAME,
 	RUNNER,
 	WIZARD,
-	RESET
+	RESET,
+	MENU
 };
 
 

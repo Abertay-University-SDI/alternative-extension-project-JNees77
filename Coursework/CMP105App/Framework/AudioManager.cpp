@@ -101,3 +101,14 @@ sf::Music* AudioManager::getMusic()
 {
 	return &music;
 }
+
+void AudioManager::setMusicVolume(float volume)
+{
+	music.setVolume(volume);
+}
+
+void AudioManager::setMusicPitch(float pitch)
+{
+	std::cout << music.getPitch() << '\n';
+	music.setPitch(pitch);
+}

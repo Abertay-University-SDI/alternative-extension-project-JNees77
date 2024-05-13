@@ -43,24 +43,29 @@ void TransitionLevel::handleInput(float dt)
 		{
 		case State::PRE_ONE:
 			gameState->setCurrentState(State::LEVEL);
+			Sleep(500);
 			break;
 		case State::PRE_TWO:
 			gameState->setCurrentState(State::RUNNER);
+			Sleep(500);
 			break;
 		case State::PRE_THREE:
 			gameState->setCurrentState(State::WIZARD);
+			Sleep(500);
 			break;
 			//this one is when you beat a level
 		case State::ENDGAME:
 			gameState->setCurrentState(State::RESET);
+			Sleep(500);
 			break;
 		}
 	}
 
-	if (Collision::checkBoundingBox(&returnButton, &cursor) && input->isRightMouseDown())
+	if (Collision::checkBoundingBox(&returnButton, &cursor) && input->isLeftMouseDown())
 	{
 		gameState->setCurrentState(State::TITLE);
 		gameState->setSingleRun(false);
+		Sleep(500);
 	}
 }
 

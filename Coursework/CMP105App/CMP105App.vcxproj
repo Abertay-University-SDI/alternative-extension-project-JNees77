@@ -255,6 +255,7 @@
     <ClCompile Include="PauseLevel.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RunnerLevel.cpp" />
+    <ClCompile Include="soundSettings.cpp" />
     <ClCompile Include="StageGrid.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
@@ -286,6 +287,7 @@
     <ClInclude Include="PauseLevel.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RunnerLevel.h" />
+    <ClInclude Include="soundSettings.h" />
     <ClInclude Include="StageGrid.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TitleScreen.h" />

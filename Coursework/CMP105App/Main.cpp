@@ -11,6 +11,7 @@
 #include "RunnerLevel.h"
 #include "WizardLevel.h"
 #include "PauseLevel.h"
+#include "soundSettings.h"
 #include "TextureManager.h"
 #include "Framework/AudioManager.h"
 #include "Framework/GameState.h"
@@ -87,7 +88,8 @@ int main()
 	WizardLevel wizardLevel(&window, &input, &gameState, &audioManager, textureManager, 2);
 	TransitionLevel transLevel(&window, &input, &gameState, &audioManager, textureManager);
 	RunnerLevel runnerLevel(&window, &input, &gameState, &audioManager, textureManager);
-	PauseLevel pause(&window, &input, &gameState);
+	PauseLevel pause(&window, &input, &gameState, textureManager);
+	soundSettings menu(&window, &input, &gameState, &audioManager, textureManager);
 	// begin on the title screen
 	gameState.setCurrentState(State::TITLE);
 
@@ -127,8 +129,9 @@ int main()
 			motivationLevel.render();
 			break;
 		case State::RUNNER:
-			runnerLevel.handleInput(deltaTime);
 			runnerLevel.update(deltaTime);
+			//switched
+			runnerLevel.handleInput(deltaTime);
 			runnerLevel.render();
 			break;
 		case State::WIZARD:
@@ -160,6 +163,12 @@ int main()
 			pause.handleInput(deltaTime);
 			pause.update(deltaTime);
 			pause.render();
+			break;
+		case State::MENU:
+			//allows user to chnage the game audio settings
+			menu.handleInput(deltaTime);
+			menu.update(deltaTime);
+			menu.render();
 			break;
 		}		
 		

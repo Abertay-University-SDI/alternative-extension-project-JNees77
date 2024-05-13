@@ -14,9 +14,9 @@ State GameState::getCurrentState()
 	return currentState;
 }
 
-void GameState::storePreviousState(State prevState)
+void GameState::storePreviousState(State ps)
 {
-	prevState = currentState;
+	prevState = ps;
 }
 
 State GameState::getPreviousState()

@@ -18,6 +18,11 @@ public:
 	void handleInput(float dt) override;
 	void render() override;
 
+	void left(float dt);
+	void right(float dt);
+	void up(float dt);
+	void down(float dt);
+
 	void randomiseControls();
 
 	void reset();
@@ -73,10 +78,17 @@ private:
 	float damagedTimer = 0.f;
 	float lastControlChange = 0.f;
 	float boardTop, boardRight, boardBottom, boardLeft;
-
+	float distance;
+	sf::Time tim;
+	sf::Clock clock;
+	float speed = 10.f;
+	float timeCondition = 0.05f;
 	// analytics values
 	float timeTaken = 0.f;
 	int misses = 0;
 	int deaths = 0;
+
+	float changeX = 0;
+	float changeY = 0;
 };
 
