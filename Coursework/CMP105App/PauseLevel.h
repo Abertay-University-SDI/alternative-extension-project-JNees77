@@ -36,6 +36,8 @@ public:
 
 	Cursor cursor;
 
+	GameState* savedState;
+
 private:
 
 	float x, y, animTimer;

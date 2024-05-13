@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 // Game State Class
 // Simple game state controller. enum lists possible game states (can be modified), tracks and updates the current state
 // @author Paul Robertson

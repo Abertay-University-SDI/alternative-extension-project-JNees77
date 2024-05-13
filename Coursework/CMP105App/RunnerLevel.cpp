@@ -82,6 +82,7 @@ RunnerLevel::RunnerLevel(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 			jumpables.push_back(secondObj);
 			break;
 		}
+		gameState->storePreviousState(gameState->getCurrentState());
 	}
 	
 	// setup Player

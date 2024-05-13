@@ -18,8 +18,8 @@ WizardLevel::WizardLevel(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 
 	// initialise background. base size: 5760, 3240
 	levelBG.setTexture(&textMan->getTexture("redSkyBG"));
-	float bgScalar = std::max(hwnd->getSize().x / 5760.f, hwnd->getSize().y / 3240.f);
-	levelBG.setSize(sf::Vector2f(5760 * bgScalar, 3240 * bgScalar));
+	//float bgScalar = std::max(hwnd->getSize().x / 5760.f, hwnd->getSize().y / 3240.f);
+	//levelBG.setSize(sf::Vector2f(5760 * bgScalar, 3240 * bgScalar));
 
 	// initialise grid board
 	// .. first calculate size. 
@@ -82,6 +82,8 @@ WizardLevel::WizardLevel(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 	controlBG.setPosition(boardLeft, boardBottom);
 	controlBG.setSize(sf::Vector2f(380, 280));
 	controlBG.setFillColor(sf::Color::Red);
+	
+
 
 	changeX = cellDim / 20;
 	changeY = cellDim / 20;
@@ -267,6 +269,9 @@ void WizardLevel::handleInput(float dt)
 
 void WizardLevel::update(float dt)
 {
+
+	levelBG.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
+
 	// check for win
 	if (playerPosition.first == end.x && playerPosition.second == end.y)
 	{
@@ -465,7 +470,6 @@ void WizardLevel::right(float dt)
 			player.setPosition((gridBoard.getPosition().x + changeX), player.getPosition().y);
 			timeCondition += 0.025f;
 			changeX += cellDim / 20;
-			std::cout << timeCondition << '\n';
 		}
 		render();
 		update(dt);

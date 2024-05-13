@@ -61,6 +61,7 @@ Lecturer::Lecturer(sf::RenderWindow* hwnd, TextureManager* tm)
 
 void Lecturer::update(float dt)
 {
+	setPosition(window->getSize().x * 0.90, window->getSize().y * 0.80);
 	//increases the value of time alive for every second that passes
 	timeAlive += dt;
 	//increases the time a message has been displayed for by 1 every second

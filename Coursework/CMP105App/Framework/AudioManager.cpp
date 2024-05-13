@@ -109,6 +109,5 @@ void AudioManager::setMusicVolume(float volume)
 
 void AudioManager::setMusicPitch(float pitch)
 {
-	std::cout << music.getPitch() << '\n';
 	music.setPitch(pitch);
 }

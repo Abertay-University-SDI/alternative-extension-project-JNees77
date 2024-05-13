@@ -32,7 +32,6 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 	float windowHeight = window->getSize().y;
 
 	TextBox.setPosition(sf::Vector2f(window->getSize().x * 0.5, window->getSize().y * 0.66));
-	TextBox.setSize(sf::Vector2f(window->getSize().x * 0.4, window->getSize().y * 0.2));
 	TextBox.setFillColor(sf::Color::Black);
 	TextBox.setOutlineColor(sf::Color::Magenta);
 	TextBox.setOutlineThickness(3.f);
@@ -104,6 +103,8 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 
 	changeX = cellDim / 20;
 	changeY = cellDim / 20;
+
+	gameState->storePreviousState(gameState->getCurrentState());
 
 	// setup grid component.
 	grid = StageGrid(
@@ -299,6 +300,8 @@ void Level::handleInput(float dt)
 // Update game objects
 void Level::update(float dt)
 {
+	TextBox.setSize(sf::Vector2f(window->getSize().x * 0.4, window->getSize().y * 0.2));
+
 	levelBG.setSize(sf::Vector2f(window->getSize()));
 
 	// display alert or reset alert.

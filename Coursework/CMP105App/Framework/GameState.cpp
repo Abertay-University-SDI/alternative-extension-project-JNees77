@@ -4,7 +4,6 @@
 // Set the current state
 void GameState::setCurrentState(State s)
 {
-	storePreviousState(currentState);
 	currentState = s;
 }
 

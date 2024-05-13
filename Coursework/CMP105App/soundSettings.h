@@ -22,14 +22,18 @@ public:
 
 	TextureManager* textMan;
 
+	GameObject fan;
+	GameObject bg;
+
 	Button bar[2];
 	Button dial[2];
+	Button back;
 
 	Cursor cursor;
 
 	sf::Font font;
 	sf::Text text[2];
-
-	float minVol, volume, minPitch, pitch;
+	sf::Text returnTxt;
+	float minVol, volume, minPitch, pitch, animTimer;
 };
 
