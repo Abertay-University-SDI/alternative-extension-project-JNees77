@@ -453,8 +453,8 @@ void WizardLevel::left(float dt)
 			timeCondition += 0.025f;
 			changeX -= cellDim / 20;
 		}
-		update(dt);
 		render();
+		update(dt);
 	}
 }
 void WizardLevel::right(float dt)

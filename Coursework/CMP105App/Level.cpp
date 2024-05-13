@@ -195,7 +195,8 @@ void Level::handleInput(float dt)
 
 				if (tim.asSeconds() > timeCondition)
 				{
-					player.setPosition((player.getPosition().x + changeX), player.getPosition().y);
+					player.setPosition((gridBoard.getPosition().x + changeX), player.getPosition().y);
+					std::cout << player.getPosition().x << '\n';
 					timeCondition += 0.05f;
 					changeX -= cellDim / 20;
 				}

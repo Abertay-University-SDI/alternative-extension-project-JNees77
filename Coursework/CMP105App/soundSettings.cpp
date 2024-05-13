@@ -32,8 +32,8 @@ soundSettings::soundSettings(sf::RenderWindow* hwnd, Input* in, GameState* gs, A
 		text[i].setOutlineColor(sf::Color::Black);
 	}
 
-	bar[0].setCollisionBox(bar[0].getCollisionBox().left + 10, bar[0].getCollisionBox().top,
-		bar[0].getCollisionBox().width, bar[0].getCollisionBox().height);
+	//bar[0].setCollisionBox(bar[0].getCollisionBox().left + 10, bar[0].getCollisionBox().top,
+	//	bar[0].getCollisionBox().width, bar[0].getCollisionBox().height);
 
 	back = Button(window, input, sf::Vector2f(window->getSize().x * 0.15, window->getSize().y * 0.075), sf::Vector2f(window->getSize().x * 0.9, window->getSize().y * 0.1));
 
