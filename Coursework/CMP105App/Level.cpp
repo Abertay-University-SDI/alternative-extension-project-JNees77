@@ -104,9 +104,6 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 	changeX = cellDim / 20;
 	changeY = cellDim / 20;
 
-	//stores the game state to be used by the pause state later
-	gameState->storePreviousState(gameState->getCurrentState());
-
 	// setup grid component.
 	grid = StageGrid(
 		sf::Vector2i(numCols, numRows), 
@@ -308,6 +305,8 @@ void Level::handleInput(float dt)
 
 	if (input->isKeyDown(sf::Keyboard::P))
 	{
+		//stores the game state to be used by the pause state later
+		gameState->storePreviousState(gameState->getCurrentState());
 		gameState->setCurrentState(State::PAUSE);
 	}
 }

@@ -121,7 +121,6 @@ WizardLevel::WizardLevel(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 	lecturer->setPosition(window->getSize().x * 0.7, window->getSize().y*0.65);
 
 	//stores the game state to be used by the pause state later
-	gameState->storePreviousState(gameState->getCurrentState());
 }
 //playerPosition.first++
 WizardLevel::~WizardLevel() {}
@@ -266,6 +265,7 @@ void WizardLevel::handleInput(float dt)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
 	{
+		gameState->storePreviousState(gameState->getCurrentState());
 		gameState->setCurrentState(State::PAUSE);
 	}
 }
@@ -458,8 +458,8 @@ void WizardLevel::left(float dt)
 			timeCondition += 0.025f;
 			changeX -= cellDim / 20;
 		}
-		render();
 		update(dt);
+		render();
 	}
 }
 //function to check if the character is moving right
@@ -477,8 +477,8 @@ void WizardLevel::right(float dt)
 			timeCondition += 0.025f;
 			changeX += cellDim / 20;
 		}
-		render();
 		update(dt);
+		render();
 	}
 }
 //function to check if the character is moving up
@@ -612,6 +612,9 @@ void WizardLevel::reset()
 	controlBG.setPosition(boardLeft, boardBottom);
 	controlBG.setSize(sf::Vector2f(380, 280));
 	controlBG.setFillColor(sf::Color::Red);
+
+	changeX = cellDim / 20;
+	changeY = cellDim / 20;
 
 	// setup grid component.
 	grid = StageGrid(
