@@ -30,7 +30,7 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 	//gets the window proportions
 	float windowWidth = window->getSize().x;
 	float windowHeight = window->getSize().y;
-
+	//sets up the text box object for displaying the messages on
 	TextBox.setPosition(sf::Vector2f(window->getSize().x * 0.5, window->getSize().y * 0.66));
 	TextBox.setFillColor(sf::Color::Black);
 	TextBox.setOutlineColor(sf::Color::Magenta);
@@ -104,6 +104,7 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud
 	changeX = cellDim / 20;
 	changeY = cellDim / 20;
 
+	//stores the game state to be used by the pause state later
 	gameState->storePreviousState(gameState->getCurrentState());
 
 	// setup grid component.
@@ -161,6 +162,8 @@ Level::~Level()
 // handle user input
 void Level::handleInput(float dt)
 {
+	//finalises a player position based on the grid, 
+	//this makes sure the player doesnt hit an obstacle/ reaches a checkpoint or the end
 	player.setPosition(sf::Vector2f(
 		gridBoard.getPosition().x + cellDim * playerPosition.first,
 		gridBoard.getPosition().y + cellDim * playerPosition.second)
@@ -177,8 +180,8 @@ void Level::handleInput(float dt)
 	float timeLeft = TIME_PER_STEP - timeInStep;
 	if (timeLeft > TIME_BUFFER && timeLeft < TIME_BUFFER + TIME_FOR_ACTION && selectedAction != FAIL)
 	{
+		//sets a time variable to 0
 		tim = clock.restart();
-		distance = speed * timeCondition;
 		//depending on the action and if pressed at the right time displays one of the following
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
@@ -186,20 +189,26 @@ void Level::handleInput(float dt)
 			//flips the players animation
 			player.setFlipped(true);
 
-
+			//resets the clock varible
 			clock.restart();
+			//stes up a time coondition
 			timeCondition = 0.05f;
+			//checks to see if one second passes
 			while (tim.asSeconds() < 1.f)
 			{
+				//gets the elapsed time
 				tim = clock.getElapsedTime();
-
+				//checks to see if 0.05 seconds has passed
 				if (tim.asSeconds() > timeCondition)
 				{
+					//sets the new player position
 					player.setPosition((gridBoard.getPosition().x + changeX), player.getPosition().y);
-					std::cout << player.getPosition().x << '\n';
+					//adds to the time condition for theif statement
 					timeCondition += 0.05f;
+					//updates the value of the change in the X-axis
 					changeX -= cellDim / 20;
 				}
+				//updates and renders
 				update(dt);
 				render();
 			}
@@ -216,8 +225,10 @@ void Level::handleInput(float dt)
 
 				if (tim.asSeconds() > timeCondition)
 				{
+					//sets the new player position which the offset of the intial player position
 					player.setPosition(player.getPosition().x, (gridBoard.getPosition().y + changeY + (cellDim*3)));
 					timeCondition += 0.05f;
+					//updates the value of the change in the Y-axis
 					changeY -= cellDim / 20;
 				}
 				update(dt);
@@ -229,7 +240,7 @@ void Level::handleInput(float dt)
 			selectedAction = RIGHT;
 			//flips the players position back the other way
 			player.setFlipped(false);
-			//CHANGE
+			
 			clock.restart();
 			timeCondition = 0.05f;
 			while (tim.asSeconds() < 1.f)
@@ -240,6 +251,7 @@ void Level::handleInput(float dt)
 				{
 					player.setPosition((gridBoard.getPosition().x + changeX), player.getPosition().y);
 					timeCondition += 0.05f;
+					//changes X-axis in the opposite way from LEFT
 					changeX += cellDim/20;
 				}
 				update(dt);
@@ -261,12 +273,14 @@ void Level::handleInput(float dt)
 				{
 					player.setPosition(player.getPosition().x, (gridBoard.getPosition().y + changeY) + (cellDim * 3));
 					timeCondition += 0.05f;
+					//changes Y-axis in the opposite way frim UP
 					changeY += cellDim / 20;
 				}
 				update(dt);
 				render();
 			}
 		}
+		//tells the player what direction the player goes
 		alert.setString("");
 	}
 	else 
@@ -301,6 +315,7 @@ void Level::handleInput(float dt)
 // Update game objects
 void Level::update(float dt)
 {
+	//updates textbox and bg size when window size is changed
 	TextBox.setSize(sf::Vector2f(window->getSize().x * 0.4, window->getSize().y * 0.2));
 
 	levelBG.setSize(sf::Vector2f(window->getSize()));
@@ -449,11 +464,6 @@ void Level::update(float dt)
 			playerPosition.first--;
 			break;
 		}
-		//CHANGE
-		/*player.setPosition(sf::Vector2f(
-			gridBoard.getPosition().x + cellDim * playerPosition.first,
-			gridBoard.getPosition().y + cellDim * playerPosition.second)
-		);*/
 		if (grid.playerHit(playerPosition))
 		{
 			resetPlayer();
@@ -496,8 +506,7 @@ void Level::render()
 	//added
 	window->draw(TextBox);
 	window->draw(lecturer);
-	//if(!lecturer.getMessageToDisplay(boardTop, boardRight, boardBottom, boardLeft).getString().isEmpty())
-		//window->draw(lecturer.getMessageToDisplay(boardTop, boardRight, boardBottom, boardLeft));
+	//finds the max size the characters can be to fit the messages into the textbox
 	if (!lecturer.getMessageToDisplay(TextBox.getPosition().y, TextBox.getPosition().x + TextBox.getSize().x,
 		(TextBox.getPosition().y + TextBox.getSize().y), TextBox.getPosition().x).getString().isEmpty());
 	{

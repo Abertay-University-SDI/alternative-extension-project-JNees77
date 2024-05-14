@@ -25,6 +25,7 @@ TitleScreen::TitleScreen(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 	titleText.setPosition(10, window->getSize().y * 0.2);
 	titleText.setCharacterSize(60);
 
+	//setting up the buttons and the text for the buttons
 	x = window->getSize().x / 1.25;
 	for (int i = 0; i < 4; i++)
 	{
@@ -34,11 +35,11 @@ TitleScreen::TitleScreen(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 		text[i].setOutlineThickness(3.f);
 		text[i].setFillColor(sf::Color::White);
 	}
-	
+	//creating the exit button properties
 	buttons[3].setSize(sf::Vector2f(125, 75));
 	buttons[3].setPosition(sf::Vector2f(window->getSize().x * 0.95, window->getSize().y * 0.05));
 	cursor = Cursor(window, in);
-
+	//text for buttons
 	text[0].setString("Practice LECTURER");
 	text[1].setString("Practice RUNNER");
 	text[2].setString("Practice WIZARD");
@@ -57,21 +58,25 @@ TitleScreen::~TitleScreen()
 
 void TitleScreen::handleInput(float dt)
 {
+	//first minigame
 	if (Collision::checkBoundingBox(&buttons[0], &cursor) && input->isLeftMouseDown())
 	{
 		gameState->setCurrentState(State::PRE_ONE);
 		gameState->setSingleRun(false);
 	}
+	//second minigame
 	if (Collision::checkBoundingBox(&buttons[1], &cursor) && input->isLeftMouseDown())
 	{
 		gameState->setCurrentState(State::PRE_TWO);
 		gameState->setSingleRun(false);
 	}
+	//third minigame
 	if (Collision::checkBoundingBox(&buttons[2], &cursor) && input->isLeftMouseDown())
 	{
 		gameState->setCurrentState(State::PRE_THREE);
 		gameState->setSingleRun(false);
 	}
+	//exit application
 	if (Collision::checkBoundingBox(&buttons[3], &cursor) && input->isLeftMouseDown())
 	{
 		exit(0);
@@ -94,6 +99,7 @@ void TitleScreen::ButtonSetup()
 void TitleScreen::update(float dt)
 {
 	// update sizes to be dynamic.
+	//background and bear animation
 	bg.setSize(sf::Vector2f(window->getView().getSize().x, window->getView().getSize().y));
 	fan.setPosition(window->getSize().x * 0.1, window->getSize().y * 0.6);
 	float fanProportion = textMan->getProportions("sadBear");
@@ -103,17 +109,19 @@ void TitleScreen::update(float dt)
 	animTimer += dt;
 
 	ButtonSetup();
+	//updates each of the buttons (gets collision boxes)
 	for (int i = 0; i < 4; i++)
 	{
 		buttons[i].update(dt);
 	}
-
+	//updates the cursor position
 	cursor.update(dt);
 	
 }
 
 void TitleScreen::render()
 {
+	//draw the objects on screen
 	beginDraw();
 	window->draw(bg);
 	for (int i = 0; i < 4; i++)

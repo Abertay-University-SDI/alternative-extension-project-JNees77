@@ -82,6 +82,7 @@ RunnerLevel::RunnerLevel(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 			jumpables.push_back(secondObj);
 			break;
 		}
+		//stores the game state to be used by the pause state later
 		gameState->storePreviousState(gameState->getCurrentState());
 	}
 	

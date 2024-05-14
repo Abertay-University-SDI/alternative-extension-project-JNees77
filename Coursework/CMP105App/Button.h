@@ -13,7 +13,6 @@ public:
 	Button(sf::RenderWindow* hwnd, Input* in, sf::Vector2f Size, sf::Vector2f Position);
 	~Button();
 
-	void setPositioning(sf::Vector2f coord);
 	void update(float dt) override;
 	void handleInput(float dt) override;
 	void render(sf::RenderWindow* hwnd);

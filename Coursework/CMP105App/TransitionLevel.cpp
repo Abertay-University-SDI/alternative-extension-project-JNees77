@@ -19,9 +19,8 @@ TransitionLevel::TransitionLevel(sf::RenderWindow* hwnd, Input* in, GameState* g
 	bg.setTexture(&textMan->getTexture("redSkyBG"));
 
 	cursor = Cursor(window, input);
+	//sets up the return button if the user whats to play a different game
 	returnButton = Button(window, input, sf::Vector2f(window->getSize().x * 0.15, window->getSize().y * 0.075), sf::Vector2f(window->getSize().x * 0.9, window->getSize().y * 0.1));
-	//returnButton.setPositioning(sf::Vector2f(window->getSize().x * 0.9, window->getSize().y * 0.1));
-	//returnButton.setSize(sf::Vector2f(window->getSize().x * 0.15, window->getSize().y * 0.075));
 	buttonTxt.setFont(font);
 	buttonTxt.setString("Return");
 	buttonTxt.setCharacterSize(20);
@@ -60,7 +59,7 @@ void TransitionLevel::handleInput(float dt)
 			break;
 		}
 	}
-
+	//brings the user back to the title screen
 	if (Collision::checkBoundingBox(&returnButton, &cursor) && input->isLeftMouseDown())
 	{
 		gameState->setCurrentState(State::TITLE);
@@ -80,13 +79,13 @@ void TransitionLevel::update(float dt)
 	switch (gameState->getCurrentState())
 	{
 	case State::PRE_ONE:
-		explain.setString("Move with WASD.\nMove in time with the claps.\nAvoid tanks and pits.\nThey are metaphors for adversary.\nThere is a checkpoint halfway round.\nIt will be yellow when enabled.\nYou cannot pause.\nYou will have assistance.\nYou will be motivated.\nIt will not be helpful.\nHit Enter.");
+		explain.setString("Move with WASD.\nMove in time with the claps.\nAvoid tanks and pits.\nThey are metaphors for adversary.\nThere is a checkpoint halfway round.\nIt will be yellow when enabled.\nYou cannot pause.\nYou will have assistance.\nYou will be motivated.\nIt will not be helpful.\nHit Enter.\n\n\nTo pause hit 'P', to unpause hit backspace");
 		break;
 	case State::PRE_TWO:
-		explain.setString("Kick (enter) wooden boxes.\nJump over (space) metal ones.\nYou got this.\nGood Luck.\nHit Enter");
+		explain.setString("Kick (enter) wooden boxes.\nJump over (space) metal ones.\nYou got this.\nGood Luck.\nHit Enter\n\n\nTo pause hit 'P', to unpause hit backspace");
 		break;
 	case State::PRE_THREE:
-		explain.setString("Move with WASD.\nMove in time with the claps.\nAvoid Tanks and Pits.\nThere is a checkpoint.\nYou will be assisted.\nKind of.\nHit Enter.\nGood Luck.");
+		explain.setString("Move with WASD.\nMove in time with the claps.\nAvoid Tanks and Pits.\nThere is a checkpoint.\nYou will be assisted.\nKind of.\nHit Enter.\nGood Luck.\n\n\nTo pause hit 'P', to unpause hit backspace");
 		break;
 	case State::ENDGAME:
 		//this stores the results for the user once they reach the required area

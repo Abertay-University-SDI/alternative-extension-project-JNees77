@@ -6,23 +6,24 @@ PauseLevel::PauseLevel()
 }
 PauseLevel::PauseLevel(sf::RenderWindow* hwnd, Input* in, GameState* gs, TextureManager* tm)
 {
+	//takes properties from main
 	window = hwnd;
 	input = in;
 	gameState = gs;
 	textMan = tm;
-
+	//fan animation
 	fan.setPosition(window->getSize().x * 0.7, window->getSize().y * 0.5);
 	float fanProportion = textMan->getProportions("sadBear");
 	fan.setSize(sf::Vector2f(window->getSize().x * 0.2, window->getSize().x * 0.2 * fanProportion));
 	fan.setTexture(&textMan->getTexture("sadBear"));
-
+	//background
 	bg.setTexture(&textMan->getTexture("titleBG"));
 
 	x = window->getSize().x/2;
 	y = window->getSize().y/2;
 
 	font.loadFromFile("font/montS.ttf");
-
+	//button/text properties
 	for (int i = 0; i < 2; i++)
 	{
 		button[i] = Button(window, input, sf::Vector2f(x / 3, y / 5), sf::Vector2f(x - button[i].getSize().x / 2, (i + 1) * 200));
@@ -35,7 +36,7 @@ PauseLevel::PauseLevel(sf::RenderWindow* hwnd, Input* in, GameState* gs, Texture
 	cursor = Cursor(window, input);
 
 	text[0].setString("Back to Titlescreen");
-	text[1].setString("Main Menu");
+	text[1].setString("Sound Settings");
 }
 PauseLevel::~PauseLevel()
 {
@@ -43,6 +44,7 @@ PauseLevel::~PauseLevel()
 }
 void PauseLevel::update(float dt)
 {
+	//updates size/position of background and animation
 	bg.setSize(sf::Vector2f(window->getView().getSize().x, window->getView().getSize().y));
 	fan.setPosition(window->getSize().x * 0.1, window->getSize().y * 0.6);
 	float fanProportion = textMan->getProportions("sadBear");
@@ -59,9 +61,11 @@ void PauseLevel::update(float dt)
 }
 void PauseLevel::handleInput(float dt)
 {
+	//where the player goes depending on the button pressed
 	if (Collision::checkBoundingBox(&button[0], &cursor) && input->isLeftMouseDown())
 	{
 		gameState->setCurrentState(State::TITLE);
+		//sleep function to stop players from accidently clicking another button on the screen they go to
 		Sleep(500);
 	}
 	if (Collision::checkBoundingBox(&button[1], &cursor) && input->isLeftMouseDown())

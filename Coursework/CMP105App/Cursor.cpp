@@ -8,7 +8,7 @@ Cursor::Cursor(sf::RenderWindow* hwnd, Input* in)
 {
 	window = hwnd;
 	input = in;
-
+	//size of the cursor object
 	setSize(sf::Vector2f(10.f, 10.f));
 	setOutlineThickness(2.f);
 }
@@ -18,12 +18,11 @@ Cursor::~Cursor()
 }
 void Cursor::update(float dt)
 {
-	//float x = sf::Mouse::getPosition().x;
-	//float y = sf::Mouse::getPosition().y;
+	//updates the position of the cursor object using the cursor position
 	x = input->getMouseX();
 	y = input->getMouseY();
-
-	setPosition(x, y);
+    setPosition(x, y);
+	//sets up collision box
 	setCollisionBox(0, 0, getSize().x, getSize().y);
 }
 void Cursor::handleInput(float dt)

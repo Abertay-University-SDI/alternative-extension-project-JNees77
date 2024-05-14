@@ -4,6 +4,7 @@ Button::Button()
 {
 
 }
+//overloaded constructor setting up the properties of the button
 Button::Button(sf::RenderWindow* hwnd, Input* in, sf::Vector2f Size, sf::Vector2f Position)
 {
 	window = hwnd;
@@ -11,7 +12,7 @@ Button::Button(sf::RenderWindow* hwnd, Input* in, sf::Vector2f Size, sf::Vector2
 
 	setSize(Size);
 	setPosition(Position);
-
+	//sets up the collision box object so it vissible on screen
 	colBox.setPosition(getCollisionBox().left, getCollisionBox().top);
 	colBox.setSize(sf::Vector2f(getCollisionBox().width, getCollisionBox().height));
 	colBox.setFillColor(sf::Color::Magenta);
@@ -24,6 +25,7 @@ Button::~Button()
 }
 void Button::update(float dt)
 {
+	//updates the position ans size on the collision box + the origion and sets the object actual collision box
 	colBox.setPosition(getCollisionBox().left, getCollisionBox().top);
 	colBox.setSize(sf::Vector2f(getCollisionBox().width, getCollisionBox().height));
 	setOrigin(getSize().x / 2, getSize().y / 2);
@@ -37,11 +39,8 @@ void Button::collisionResponse(GameObject* collider)
 {
 
 }
-void Button::setPositioning(sf::Vector2f coord)
-{
-	
-}
 void Button::render(sf::RenderWindow* hwnd)
 {
+	//draws the visible collision box
 	hwnd->draw(colBox);
 }

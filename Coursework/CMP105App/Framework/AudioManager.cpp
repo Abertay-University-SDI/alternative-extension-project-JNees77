@@ -101,12 +101,12 @@ sf::Music* AudioManager::getMusic()
 {
 	return &music;
 }
-
+//sets the music volume
 void AudioManager::setMusicVolume(float volume)
 {
 	music.setVolume(volume);
 }
-
+//sets the msic pitch
 void AudioManager::setMusicPitch(float pitch)
 {
 	music.setPitch(pitch);

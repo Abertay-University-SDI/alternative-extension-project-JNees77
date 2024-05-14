@@ -12,12 +12,12 @@ State GameState::getCurrentState()
 {
 	return currentState;
 }
-
+//stores the previous state
 void GameState::storePreviousState(State ps)
 {
 	prevState = ps;
 }
-
+//returns the previous state
 State GameState::getPreviousState()
 {
 	return prevState;

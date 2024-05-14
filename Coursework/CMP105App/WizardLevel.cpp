@@ -119,6 +119,9 @@ WizardLevel::WizardLevel(sf::RenderWindow* hwnd, Input* in, GameState* gs, Audio
 	lecturer = new LecturEH(textMan);
 	lecturer->setSize(sf::Vector2f(window->getSize().y*0.2, window->getSize().y * 0.2));
 	lecturer->setPosition(window->getSize().x * 0.7, window->getSize().y*0.65);
+
+	//stores the game state to be used by the pause state later
+	gameState->storePreviousState(gameState->getCurrentState());
 }
 //playerPosition.first++
 WizardLevel::~WizardLevel() {}
@@ -439,6 +442,8 @@ void WizardLevel::render()
 	}
 	endDraw();
 }
+//series of functions that do the same actions as the level class based on the character choosen movement
+//function to check if the character is moving left
 void WizardLevel::left(float dt)
 {
 	clock.restart();
@@ -446,7 +451,7 @@ void WizardLevel::left(float dt)
 	while (tim.asSeconds() < 1.f)
 	{
 		tim = clock.getElapsedTime();
-
+		//this if condition should execute 20 times so the distance move equals one cell dimension
 		if (tim.asSeconds() > timeCondition)
 		{
 			player.setPosition((gridBoard.getPosition().x + changeX), player.getPosition().y);
@@ -457,6 +462,7 @@ void WizardLevel::left(float dt)
 		update(dt);
 	}
 }
+//function to check if the character is moving right
 void WizardLevel::right(float dt)
 {
 	clock.restart();
@@ -475,6 +481,7 @@ void WizardLevel::right(float dt)
 		update(dt);
 	}
 }
+//function to check if the character is moving up
 void WizardLevel::up(float dt)
 {
 	clock.restart();
@@ -493,6 +500,7 @@ void WizardLevel::up(float dt)
 		render();
 	}
 }
+//function to check if the character is moving down
 void WizardLevel::down(float dt)
 {
 	clock.restart();
